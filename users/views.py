@@ -37,7 +37,7 @@ class Consumer_data(ModelViewSet):
     ordering_fields = ['__all__']
 
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['DELETE'])
     def remove_data(self, request, pk=None):
         try:
             obj = Consumer.objects.get(pk=pk)
