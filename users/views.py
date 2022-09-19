@@ -7,10 +7,14 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from .filters import VendorFilterSet, ConsumerFilterSet
+
 
 class Vendor_data(ModelViewSet):
     serializer_class = VendorSerializers
     queryset = Vendor.objects.all()
+
+    filter_class = VendorFilterSet
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     
@@ -26,14 +30,14 @@ class Consumer_data(ModelViewSet):
     serializer_class = ConsumerSerializers
     queryset = Consumer.objects.all()
 
+    filter_class = ConsumerFilterSet
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    
     filterset_fields = ['name','email','age']
     search_fields = ['name','email']
     ordering_fields = ['__all__']
 
 
-    @action(detail=True, methods=['POST'])
+    @action(detail=True, methods=['GET'])
     def remove_data(self, request, pk=None):
         try:
             obj = Consumer.objects.get(pk=pk)
