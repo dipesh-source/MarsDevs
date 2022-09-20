@@ -14,14 +14,15 @@ class Vendor_data(ModelViewSet):
     serializer_class = VendorSerializers
     queryset = Vendor.objects.all()
 
-    filter_class = VendorFilterSet
+    filterset_class = VendorFilterSet
 
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     
-    filterset_fields = ['name','email']
-    search_fields = ['name','email']
-    ordering_fields = ['__all__']
+    # filterset_fields = ['name','email']
+    # search_fields = ['name','email']
+    # ordering_fields = ['name']
 
+    # for understand purpose only
     def get_queryset(self):
         return Vendor.objects.all()
 
@@ -34,14 +35,13 @@ class Consumer_data(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['name','email','age']
     search_fields = ['name','email']
-    ordering_fields = ['__all__']
+    ordering_fields = ['name','email','age']
 
 
     @action(detail=True, methods=['DELETE'])
     def remove_data(self, request, pk=None):
         try:
-            obj = Consumer.objects.get(pk=pk)
-            obj.delete()
+            obj = Consumer.objects.filter(pk=pk).delete()
             return Response({'data':'Data Deleted'}, status=status.HTTP_200_OK)
         except Consumer.DoesNotExist:
             return False

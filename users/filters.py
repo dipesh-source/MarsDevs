@@ -1,10 +1,11 @@
 from .models import Vendor, Consumer
 
-from django_filters import rest_framework as filters
+# from django_filters import rest_framework as filters
+import django_filters
 from django.db.models import Q
 
-class VendorFilterSet(filters.FilterSet):
-    merge = filters.CharFilter(method="name_and_city")
+class VendorFilterSet(django_filters.FilterSet):
+    merge = django_filters.CharFilter(method="name_and_city")
     class Meta:
         model = Vendor
         fields = {
@@ -15,14 +16,15 @@ class VendorFilterSet(filters.FilterSet):
         }
 
     def name_and_city(self, queryset, name, value):
-        "I want to understand this function how does function work sir"  
+        #I want to understand this function how does function work sir 
         filters = {}
+        print(value)
         if value:
-            data = Vendor.objects.filter( Q(name=value) | Q(city=value) )
-        return queryset.filter(**filters)
+            queryset = queryset.filter( Q(name=value) | Q(city=value) )
+        return queryset
 
 
-class ConsumerFilterSet(filters.FilterSet):
+class ConsumerFilterSet(django_filters.FilterSet):
 
     class Meta:
         model = Consumer
