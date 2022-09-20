@@ -41,7 +41,7 @@ class Consumer_data(ModelViewSet):
     @action(detail=True, methods=['DELETE'])
     def remove_data(self, request, pk=None):
         try:
-            obj = Consumer.objects.filter(pk=pk).delete()
+            Consumer.objects.filter(pk=pk).delete()
             return Response({'data':'Data Deleted'}, status=status.HTTP_200_OK)
         except Consumer.DoesNotExist:
             return False
