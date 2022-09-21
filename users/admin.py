@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Vendor, Consumer
+from .models import Vendor, Consumer, Movies, Viewers
 
 
 # class ConsumerTab(admin.StackedInline):
@@ -31,5 +31,33 @@ class Consumer_admin(admin.ModelAdmin):
     search_fields = ['name','email','age']
     list_editable = ['email','age']
     ordering = ['email']
+    readonly_fields = ['created']
+    list_per_page = 10
+
+
+# have a tabular inline
+class moviesData(admin.TabularInline):
+    model = Viewers
+
+@admin.register(Movies)
+class Movies_admin(admin.ModelAdmin):
+    inlines = [moviesData]
+    list_display  = ['id','name','hero','types','created']
+    list_filter = ['name','hero','types','created']
+    search_fields = ['name','hero','types']
+    list_editable = ['name','hero']
+    ordering = ['name']
+    readonly_fields = ['created']
+    list_per_page = 10
+
+
+@admin.register(Viewers)
+class Viewers_admin(admin.ModelAdmin):
+    list_display  = ['id','movies','vname','age','city','created']
+    autocomplete_fields = ['movies']
+    list_filter = ['vname','age','city','created']
+    search_fields = ['vname','age','city']
+    list_editable = ['vname','city']
+    ordering = ['vname']
     readonly_fields = ['created']
     list_per_page = 10
