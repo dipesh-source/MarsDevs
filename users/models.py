@@ -23,3 +23,10 @@ class Consumer(models.Model):
 
     def __str__(self):
         return str(self.vendor)
+
+# class Product(models.Model):
+#     name = models.CharField(max_length=100)
+#     brand = models.CharField(max_length=100)
+#     color = models.CharField(max_length=100)
+#     price = models.IntegerField()
+#     in_stock = models.BooleanField(default=True)
