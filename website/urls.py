@@ -13,7 +13,8 @@ router.register('consumer',views.Consumer_data,basename='consumer_data')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('',views.homepage),
+    # path('', include(router.urls)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
