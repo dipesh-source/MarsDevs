@@ -24,12 +24,16 @@ class Consumer(models.Model):
     def __str__(self):
         return str(self.vendor)
 
+class Movies_manager(models.Manager):
+    def get_queryset(self):
+        return super(Movies_manager, self).get_queryset().values_list("name","created")
 
 class Movies(models.Model):
     name = models.CharField(max_length=100)
     hero = models.CharField(max_length=100)
     types = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
+    custome_obj = Movies_manager()
 
     def __str__(self):
         return self.name

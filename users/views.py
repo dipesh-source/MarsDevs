@@ -9,7 +9,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from .filters import VendorFilterSet, ConsumerFilterSet
 from .models import Movies, Viewers
-from django.db.models import F, Q
+from django.db.models import F, Q, Prefetch, When, Case
 
 
 class Vendor_data(ModelViewSet):
@@ -49,9 +49,18 @@ class Consumer_data(ModelViewSet):
 
 
 def homepage(request):
-    data = Viewers.objects.select_related("movies").annotate(
-        name=F("movies__name"), hero=F("movies__hero")
-    )
+    # data = Viewers.objects.select_related("movies").annotate(
+    #     name=F("movies__name"), hero=F("movies__hero")
+    # )
 
+    # movie_data = Movies.objects.select_related(
+    #     Prefetch("movie_data", queryset=Viewers.objects.all(), to_attr="movie_data")
+    # )
+    # print(movie_data,'###############')
+    # context = {"data": movie_data}
+
+    # data = Movies.objects.filter(Case(types=When(name="fan", then=F("movies__vname"))))
+    data = Movies.custome_obj.all()
+    print('my all result over here', data)
     context = {"data": data}
     return render(request, "home.html", context)
